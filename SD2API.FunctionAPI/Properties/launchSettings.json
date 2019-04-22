@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "SD2API.FunctionAPI": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ApiDbConnectionString": "Server=tcp:localhost,1433;Initial Catalog=sd2replays;Persist Security Info=False;User ID=sd2replays;Password=msx3oy68PLGBVJ6NZPT3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;"
+      }
+    }
+  }
+}

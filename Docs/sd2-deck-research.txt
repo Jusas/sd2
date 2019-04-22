@@ -1,0 +1,51 @@
+26-ya Gvard. Strelkovy
+USSR
+==========================
+
+DCRDBhBCFdY4AAA=
+
+WLA DP (recon bike)
+Phase A
+1 veterancy
+6 availability
+10 price
+
+--
+
+DCRDBhBCFcZkQUA=
+
+Strelki + M2A1
+Phase A
+0 veterancy
+9 availability
+40 price (20 + 20)
+
+--
+
+DCRDDgQQhXKrAAuHwASrAAJVwAA=
+
+Barbed wire
+Phase A
+0 veterancy
+3k availability
+0 price
+
+Bunker maxim
+Phase A
+1 veterancy
+4 availability
+0 price
+
+Gun pit
+Phase A
+0 veterancy
+6 availability
+0 price
+
+Trenches
+Phase A
+0 veterancy
+1.5k availability
+0 price
+
+

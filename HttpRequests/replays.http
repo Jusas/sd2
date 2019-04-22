@@ -1,0 +1,12 @@
+POST http://localhost:7071/api/replay
+Content-Type: application/json
+
+{
+  "Name": "Replay One"
+}
+
+
+###
+
+GET http://localhost:7071/api/replays/1
+
