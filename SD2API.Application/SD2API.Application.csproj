@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SD2API.Domain\SD2API.Domain.csproj" />
+    <ProjectReference Include="..\SD2Tools.ReplayTools\SD2Tools.ReplayTools.csproj" />
   </ItemGroup>
 
 </Project>

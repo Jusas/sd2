@@ -42,12 +42,25 @@ namespace SD2API.FunctionAPI
         [FunctionName("PostReplay")]
         public static async Task<IActionResult> PostReplay(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "replay")] HttpRequest req,
-            [HttpBody]HttpParam<CreateReplay> replay,
+            [HttpForm(Required = true)]HttpParam<string> name,
+            [HttpForm]HttpParam<string> description,
+            [HttpForm(Required = true)]HttpParam<IFormFile> file,
             [Inject]IMediator mediator,
             ILogger log)
         {
-            var result = await mediator.Send(replay.Value);
-            return new OkObjectResult(result);
+            using (var fileStream = file.Value.OpenReadStream())
+            {
+                var replayData = new CreateReplay()
+                {
+                    Description = description,
+                    Name = name,
+                    File = new CreateReplay.UploadedFile(file.Value.FileName,
+                        file.Value.ContentType,
+                        fileStream)
+                };
+                var result = await mediator.Send(replayData);
+                return new OkObjectResult(result);
+            }
         }
     }
 }

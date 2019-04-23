@@ -32,7 +32,7 @@ namespace SD2API.Startup
             });
             // problem: output goes to bin/bin, and dotnet ef core commands can't find it.
             var dbContextInstance = services.BuildServiceProvider().GetService<IApiDbContext>() as ApiDbContext;
-            dbContextInstance.Database.Migrate();
+            //dbContextInstance.Database.Migrate();
 
         }
     }
