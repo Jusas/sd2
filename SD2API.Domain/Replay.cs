@@ -6,38 +6,39 @@ namespace SD2API.Domain
 {
     public class Replay
     {
-        public int ReplayId { get; set; } // sha-1 of the replay data bytes + name bytes, 10 first chars.
+        public virtual int ReplayId { get; set; } // sha-1 of the replay data bytes + name bytes, 10 first chars.
         public string ReplayHashStub { get; set; } // sha-1 of the replay data bytes, 10 first chars.
 
         public string Name { get; set; }
+        public string Description { get; set; }
         public DateTime Date { get; set; }        
         public string BinaryUrl { get; set; }
         public string ReplayRawHeader { get; set; }
         public string ReplayRawFooter { get; set; }
         
-        public ReplayHeader ReplayHeader { get; set; }
-        public ReplayFooter ReplayFooter { get; set; }
+        public virtual ReplayHeader ReplayHeader { get; set; }
+        public virtual ReplayFooter ReplayFooter { get; set; }
 
     }
 
     public class ReplayFooter
     {
-        public int ReplayFooterId { get; set; }
-        public int ReplayId { get; set; }
+        public virtual int ReplayFooterId { get; set; }
+        public virtual int ReplayId { get; set; }
         public ReplayFooterResult result { get; set; }
 
-        public Replay Replay { get; set; }
+        public virtual Replay Replay { get; set; }
 
         public class ReplayFooterResult
         {
-            public int ReplayFooterResultId { get; set; }
-            public int ReplayFooterId { get; set; }
+            public virtual int ReplayFooterResultId { get; set; }
+            public virtual int ReplayFooterId { get; set; }
 
             public string Duration { get; set; }
             public string Victory { get; set; }
             public string Score { get; set; }
 
-            public ReplayFooter ReplayFooter { get; set; }
+            public virtual ReplayFooter ReplayFooter { get; set; }
         }
     }
 
@@ -48,17 +49,17 @@ namespace SD2API.Domain
             Players = new HashSet<ReplayHeaderPlayer>();
         }
 
-        public int ReplayHeaderId { get; set; }
-        public int ReplayId { get; set; }
+        public virtual int ReplayHeaderId { get; set; }
+        public virtual int ReplayId { get; set; }
         public ReplayHeaderGame Game { get; set; }
         public ICollection<ReplayHeaderPlayer> Players { get; set; }
 
-        public Replay Replay { get; set; }
+        public virtual Replay Replay { get; set; }
 
         public class ReplayHeaderGame
         {
-            public int ReplayHeaderGameId { get; set; }
-            public int ReplayHeaderId { get; set; }
+            public virtual int ReplayHeaderGameId { get; set; }
+            public virtual int ReplayHeaderId { get; set; }
 
             public string Version { get; set; }
             public string ModList { get; set; }
@@ -81,13 +82,13 @@ namespace SD2API.Domain
             public string UniqueSessionId { get; set; }
             public string InverseSpawnPoints { get; set; }
 
-            public ReplayHeader ReplayHeader { get; set; }
+            public virtual ReplayHeader ReplayHeader { get; set; }
         }
 
         public class ReplayHeaderPlayer
         {
-            public int ReplayHeaderPlayerId { get; set; }
-            public int ReplayHeaderId { get; set; }
+            public virtual int ReplayHeaderPlayerId { get; set; }
+            public virtual int ReplayHeaderId { get; set; }
 
             public string PlayerUserId { get; set; }
             public string PlayerElo { get; set; }
@@ -106,7 +107,7 @@ namespace SD2API.Domain
             public string PlayerScoreLimit { get; set; }
             public string PlayerIncomeRate { get; set; }
 
-            public ReplayHeader ReplayHeader { get; set; }
+            public virtual ReplayHeader ReplayHeader { get; set; }
         }
 
 

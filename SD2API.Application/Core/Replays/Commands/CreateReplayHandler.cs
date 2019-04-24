@@ -14,23 +14,26 @@ using SD2API.Domain;
 
 namespace SD2API.Application.Core.Replays.Commands
 {
-    public class CreateReplayHandler : IRequestHandler<CreateReplay, string>
+    public class CreateReplayHandler : IRequestHandler<CreateReplay, CreateReplayResponse>
     {
 
         private IApiDbContext _apiDbContext;
+        private IBlobStorage _blobStorage;
 
-        public CreateReplayHandler(IApiDbContext apiDbContext)
+        public CreateReplayHandler(IApiDbContext apiDbContext, IBlobStorage blobStorage)
         {
             _apiDbContext = apiDbContext;
+            _blobStorage = blobStorage;
         }
 
         private async Task<string> UploadToStorage(Stream fileStream, string hashStub)
         {
             fileStream.Seek(0, SeekOrigin.Begin);
-            return "https://" + hashStub;
+            var storageUri = await _blobStorage.UploadBlob(fileStream, "files", hashStub, true);
+            return storageUri;
         }
 
-        public async Task<string> Handle(CreateReplay request, CancellationToken cancellationToken)
+        public async Task<CreateReplayResponse> Handle(CreateReplay request, CancellationToken cancellationToken)
         {
             try
             {
@@ -43,13 +46,15 @@ namespace SD2API.Application.Core.Replays.Commands
                                  + $"{DateTimeOffset.UtcNow.ToUnixTimeMilliseconds()}";
                 var hashStub = BitConverter.ToString(sha.ComputeHash(Encoding.ASCII.GetBytes(hashSource)))
                     .Replace("-", String.Empty)
-                    .Substring(0, 10);
+                    .Substring(0, 10)
+                    .ToLower();
 
                 var blobUrl = await UploadToStorage(fileStream, hashStub);
 
                 var replay = new Replay()
                 {
                     Name = request.Name,
+                    Description = request.Description,
                     Date = DateTime.UtcNow,
                     ReplayHashStub = hashStub,
                     ReplayRawFooter = parsedReplay.ReplayFooterRaw,
@@ -73,7 +78,10 @@ namespace SD2API.Application.Core.Replays.Commands
 
                 _apiDbContext.Replays.Add(replay);
                 await _apiDbContext.SaveChangesAsync(cancellationToken);
-                return replay.ReplayHashStub;
+                return new CreateReplayResponse()
+                {
+                    ReplayHash = replay.ReplayHashStub
+                };
             }
             catch (Exception e)
             {

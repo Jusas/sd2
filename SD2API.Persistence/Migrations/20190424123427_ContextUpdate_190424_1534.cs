@@ -4,41 +4,27 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SD2API.Persistence.Migrations
 {
-    public partial class ContextUpdate_190422_2113 : Migration
+    public partial class ContextUpdate_190424_1534 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "BinaryUrl",
-                table: "Replays",
-                maxLength: 256,
-                nullable: true);
-
-            migrationBuilder.AddColumn<DateTime>(
-                name: "Date",
-                table: "Replays",
-                type: "datetime",
-                nullable: false,
-                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-            migrationBuilder.AddColumn<string>(
-                name: "ReplayHashStub",
-                table: "Replays",
-                maxLength: 10,
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "ReplayRawFooter",
-                table: "Replays",
-                maxLength: 2048,
-                nullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "ReplayRawHeader",
-                table: "Replays",
-                maxLength: 4096,
-                nullable: true);
+            migrationBuilder.CreateTable(
+                name: "Replays",
+                columns: table => new
+                {
+                    ReplayId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ReplayHashStub = table.Column<string>(maxLength: 10, nullable: false),
+                    Name = table.Column<string>(maxLength: 256, nullable: false),
+                    Date = table.Column<DateTime>(nullable: false),
+                    BinaryUrl = table.Column<string>(maxLength: 256, nullable: true),
+                    ReplayRawHeader = table.Column<string>(maxLength: 4096, nullable: true),
+                    ReplayRawFooter = table.Column<string>(maxLength: 2048, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Replays", x => x.ReplayId);
+                });
 
             migrationBuilder.CreateTable(
                 name: "ReplayFooter",
@@ -221,25 +207,8 @@ namespace SD2API.Persistence.Migrations
             migrationBuilder.DropTable(
                 name: "ReplayHeader");
 
-            migrationBuilder.DropColumn(
-                name: "BinaryUrl",
-                table: "Replays");
-
-            migrationBuilder.DropColumn(
-                name: "Date",
-                table: "Replays");
-
-            migrationBuilder.DropColumn(
-                name: "ReplayHashStub",
-                table: "Replays");
-
-            migrationBuilder.DropColumn(
-                name: "ReplayRawFooter",
-                table: "Replays");
-
-            migrationBuilder.DropColumn(
-                name: "ReplayRawHeader",
-                table: "Replays");
+            migrationBuilder.DropTable(
+                name: "Replays");
         }
     }
 }

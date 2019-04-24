@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
+using Microsoft.EntityFrameworkCore;
 using SD2API.Application.Interfaces;
 
 namespace SD2API.Application.Core.Replays.Queries
@@ -11,23 +13,29 @@ namespace SD2API.Application.Core.Replays.Queries
     public class GetReplayHandler : IRequestHandler<GetReplay, GetReplayModel>
     {
         private IApiDbContext _dbContext;
+        private IMapper _mapper;
 
-        public GetReplayHandler(IApiDbContext dbContext)
+        public GetReplayHandler(IApiDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public async Task<GetReplayModel> Handle(GetReplay request, CancellationToken cancellationToken)
         {
-            var replay = await _dbContext.Replays.FindAsync(request.Id);
+            var replay = await _dbContext.Replays
+                .Include(r => r.ReplayFooter)
+                .ThenInclude(f => f.result)
+                .Include(r => r.ReplayHeader)
+                .ThenInclude(h => h.Game)
+                .Include(r => r.ReplayHeader)
+                .ThenInclude(h => h.Players)
+                .FirstOrDefaultAsync(r => r.ReplayHashStub == request.Hash);
+
             if (replay == null)
                 return null;
 
-            return new GetReplayModel()
-            {
-                Name = replay.Name,
-                ReplayId = replay.ReplayId
-            };
+            return _mapper.Map<GetReplayModel>(replay);            
         }
     }
 }

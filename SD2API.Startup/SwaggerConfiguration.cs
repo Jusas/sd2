@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using NSwag.SwaggerGeneration.AzureFunctionsV2;
 
 namespace SD2API.Startup
@@ -17,6 +19,10 @@ namespace SD2API.Startup
         {
             var settings = new AzureFunctionsV2ToSwaggerGeneratorSettings();
             SwaggerGeneratorSettings = settings;
+            settings.SerializerSettings = new JsonSerializerSettings()
+            {
+                ContractResolver = new CamelCasePropertyNamesContractResolver()
+            };
 
             settings.Title = "SD2 Replays API";
             settings.Description =

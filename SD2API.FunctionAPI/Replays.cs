@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AzureFunctionsV2.HttpExtensions.Annotations;
@@ -10,8 +11,10 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using NSwag.Annotations;
 using SD2API.Application.Core.Replays.Commands;
 using SD2API.Application.Core.Replays.Queries;
+using SD2API.FunctionAPI.Helpers;
 using Willezone.Azure.WebJobs.Extensions.DependencyInjection;
 
 namespace SD2API.FunctionAPI
@@ -30,15 +33,18 @@ namespace SD2API.FunctionAPI
 
         [FunctionName("GetReplay")]
         public static async Task<IActionResult> GetReplay(
-            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "replays/{id}")] HttpRequest req,
-            int id,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "replays/{hash}")] HttpRequest req,
+            string hash,
             [Inject]IMediator mediator,
             ILogger log)
         {
-            var result = await mediator.Send(new GetReplay {Id = id});
+            var result = await mediator.Send(new GetReplay {Hash = hash});
             return result == null ? (IActionResult)new NotFoundResult() : new OkObjectResult(result);
         }
 
+        [SwaggerResponse(201, typeof(CreateReplayResponse))]
+        [SwaggerResponse(500, typeof(InternalServerErrorResponse))]
+        [SwaggerResponse(400, typeof(InvalidRequestResponse))]
         [FunctionName("PostReplay")]
         public static async Task<IActionResult> PostReplay(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "replay")] HttpRequest req,

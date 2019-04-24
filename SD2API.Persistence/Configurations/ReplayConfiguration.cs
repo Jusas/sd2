@@ -11,11 +11,11 @@ namespace SD2API.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Replay> builder)
         {
-            builder.HasKey(e => e.ReplayId);
+            builder.HasKey(e => e.ReplayId); // maybe... https://github.com/taikuukaits/SimpleWordlists
 
             builder.Property(e => e.ReplayHashStub).IsRequired().HasMaxLength(10);
+            builder.HasIndex(e => e.ReplayHashStub);
             builder.Property(e => e.Name).IsRequired().HasMaxLength(256);
-            builder.Property(e => e.Date).HasColumnType("datetime");
             builder.Property(e => e.BinaryUrl).HasMaxLength(256);
             builder.Property(e => e.ReplayRawFooter).HasMaxLength(2048);
             builder.Property(e => e.ReplayRawHeader).HasMaxLength(4096);

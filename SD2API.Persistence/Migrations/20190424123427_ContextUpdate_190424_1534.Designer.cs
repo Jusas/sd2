@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SD2API.Persistence;
 
 namespace SD2API.Persistence.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    partial class ApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190424123427_ContextUpdate_190424_1534")]
+    partial class ContextUpdate_190424_1534
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,8 +31,6 @@ namespace SD2API.Persistence.Migrations
                         .HasMaxLength(256);
 
                     b.Property<DateTime>("Date");
-
-                    b.Property<string>("Description");
 
                     b.Property<string>("Name")
                         .IsRequired()

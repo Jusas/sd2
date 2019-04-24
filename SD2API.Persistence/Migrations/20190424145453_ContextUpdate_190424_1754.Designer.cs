@@ -10,8 +10,8 @@ using SD2API.Persistence;
 namespace SD2API.Persistence.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20190422181313_ContextUpdate_190422_2113")]
-    partial class ContextUpdate_190422_2113
+    [Migration("20190424145453_ContextUpdate_190424_1754")]
+    partial class ContextUpdate_190424_1754
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,9 @@ namespace SD2API.Persistence.Migrations
                     b.Property<string>("BinaryUrl")
                         .HasMaxLength(256);
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("Date");
+
+                    b.Property<string>("Description");
 
                     b.Property<string>("Name")
                         .IsRequired()

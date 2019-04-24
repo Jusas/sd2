@@ -6,7 +6,7 @@ using MediatR;
 
 namespace SD2API.Application.Core.Replays.Commands
 {
-    public class CreateReplay : IRequest<string>
+    public class CreateReplay : IRequest<CreateReplayResponse>
     {
         public string Name { get; set; }
         public string Description { get; set; }

@@ -17,6 +17,8 @@ namespace SD2API.Persistence
         {
             var builder = new DbContextOptionsBuilder<ApiDbContext>();
             var connectionString = Environment.GetEnvironmentVariable("ApiDbConnectionString");
+            if (connectionString == null)
+                connectionString = "Server=tcp:localhost,1433;";
             builder.UseSqlServer(connectionString);
             return new ApiDbContext(builder.Options);
         }
