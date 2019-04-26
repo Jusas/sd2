@@ -10,7 +10,7 @@ using SD2API.Application.Interfaces;
 
 namespace SD2API.Application.Core.Replays.Queries
 {
-    public class GetReplayHandler : IRequestHandler<GetReplay, GetReplayModel>
+    public class GetReplayHandler : IRequestHandler<GetReplay, GetReplayResponse>
     {
         private IApiDbContext _dbContext;
         private IMapper _mapper;
@@ -21,7 +21,7 @@ namespace SD2API.Application.Core.Replays.Queries
             _mapper = mapper;
         }
 
-        public async Task<GetReplayModel> Handle(GetReplay request, CancellationToken cancellationToken)
+        public async Task<GetReplayResponse> Handle(GetReplay request, CancellationToken cancellationToken)
         {
             var replay = await _dbContext.Replays
                 .Include(r => r.ReplayFooter)
@@ -35,7 +35,7 @@ namespace SD2API.Application.Core.Replays.Queries
             if (replay == null)
                 return null;
 
-            return _mapper.Map<GetReplayModel>(replay);            
+            return _mapper.Map<GetReplayResponse>(replay);            
         }
     }
 }

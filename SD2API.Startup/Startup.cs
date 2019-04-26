@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using SD2API.Application.Core.Replays.Queries;
 using SD2API.Application.Infrastructure;
 using SD2API.Application.Interfaces;
+using SD2API.Application.Search;
 using SD2API.Persistence;
 using SD2API.Startup;
 using SD2API.Startup.Configuration;
@@ -35,12 +37,17 @@ namespace SD2API.Startup
                 .Build();
 
             services.AddSingleton(typeof(IConfiguration), config);
-            services.AddMediatR(typeof(GetReplayModel).GetTypeInfo().Assembly);
+            services.AddTransient<IQueryBuilder, QueryBuilder>();
+            services.AddMediatR(typeof(GetReplayResponse).GetTypeInfo().Assembly);
             services.AddSingleton<IMapper, Mapper>(provider =>
                 new Mapper(
                     new MapperConfiguration(
-                        cfg => cfg.AddProfile(new AutoMapperProfile())
-                    )
+                        cfg =>
+                        {
+                            cfg.AddProfile(new AutoMapperProfile());
+                            cfg.CreateMap<double, string>().ConvertUsing(x => x.ToString(CultureInfo.InvariantCulture));
+                            cfg.CreateMap<string, double>().ConvertUsing(x => double.Parse(x, CultureInfo.InvariantCulture));
+                        })
                 )
             );
 

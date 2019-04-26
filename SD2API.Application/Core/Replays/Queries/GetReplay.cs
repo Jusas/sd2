@@ -5,7 +5,7 @@ using MediatR;
 
 namespace SD2API.Application.Core.Replays.Queries
 {
-    public class GetReplay : IRequest<GetReplayModel>
+    public class GetReplay : IRequest<GetReplayResponse>
     {
         public string Hash { get; set; }
     }

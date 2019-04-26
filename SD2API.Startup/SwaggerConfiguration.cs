@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using NJsonSchema;
 using NSwag.SwaggerGeneration.AzureFunctionsV2;
 
 namespace SD2API.Startup
@@ -23,6 +24,7 @@ namespace SD2API.Startup
             {
                 ContractResolver = new CamelCasePropertyNamesContractResolver()
             };
+            //settings.SchemaType = SchemaType.OpenApi3; // Consumes multipart/form-data does not work with this
 
             settings.Title = "SD2 Replays API";
             settings.Description =

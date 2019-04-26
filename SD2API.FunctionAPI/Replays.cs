@@ -21,14 +21,38 @@ namespace SD2API.FunctionAPI
 {
     public static class Replays
     {
+        [SwaggerResponse(200, typeof(GetReplayListResponse))]
+        [SwaggerResponse(500, typeof(InternalServerErrorResponse))]
+        [SwaggerResponse(400, typeof(InvalidRequestResponse))]
         [FunctionName("GetReplays")]
         public static async Task<IActionResult> GetReplays(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "replays")] HttpRequest req,
-            [HttpQuery]HttpParam<int> intp,
+            [HttpQuery]HttpParam<int> skip,
+            [HttpQuery]HttpParam<int> limit,
+            [HttpQuery]HttpParam<string> orderBy,
+            [HttpQuery]HttpParam<bool> descending,
+            [HttpQuery]HttpParam<string> name,
+            [HttpQuery]HttpParam<string> playerName,
+            [HttpQuery]HttpParam<string> playerId,
+            [HttpQuery]HttpParam<string> map,
+            [HttpQuery]HttpParam<string> gameMode,
+            [HttpQuery]HttpParam<int?> nbMaxPlayer,
+            [HttpQuery]HttpParam<string> victoryCond,
+            [HttpQuery]HttpParam<int?> incomeRate,
+            [HttpQuery]HttpParam<int?> initMoney,
+            [HttpQuery]HttpParam<bool?> rankedMatchesOnly,
             [Inject]IMediator mediator,
             ILogger log)
         {
-            throw new NotImplementedException();
+            var result = await mediator.Send(new GetReplayList()
+            {
+                Descending = descending, Limit = limit, OrderBy = orderBy, Skip = skip, Query = new GetReplayList.ReplayQuery()
+                {
+                    GameMode = gameMode, IncomeRate = incomeRate, InitMoney = initMoney, Map = map, Name = name, NbMaxPlayer = nbMaxPlayer,
+                    PlayerName = playerName, PlayerId = playerId, RankedMatchesOnly = rankedMatchesOnly, VictoryCond = victoryCond
+                }
+            });
+            return new OkObjectResult(result);
         }
 
         [FunctionName("GetReplay")]
@@ -45,6 +69,7 @@ namespace SD2API.FunctionAPI
         [SwaggerResponse(201, typeof(CreateReplayResponse))]
         [SwaggerResponse(500, typeof(InternalServerErrorResponse))]
         [SwaggerResponse(400, typeof(InvalidRequestResponse))]
+        [Consumes("multipart/form-data")]
         [FunctionName("PostReplay")]
         public static async Task<IActionResult> PostReplay(
             [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "replay")] HttpRequest req,
