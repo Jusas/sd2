@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
+using AzureFunctionsV2.HttpExtensions.Authorization;
 using MediatR;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Hosting;
@@ -24,19 +26,41 @@ namespace SD2API.Startup
 {
     public class Startup : IWebJobsStartup
     {
+
+        private static IConfiguration _configuration;
+        private static IConfiguration Configuration
+        {
+            get
+            {
+                if (_configuration != null)
+                    return _configuration;
+
+                _configuration = new ConfigurationBuilder()
+                    .AddMemCachedKeyVaultConfiguration(() => Environment.GetEnvironmentVariable("AzureKeyVaultUri"))
+                    .AddEnvironmentVariables("SD2API_")
+                    .Build();
+                return _configuration;
+            }
+        }
+
         public void Configure(IWebJobsBuilder builder)
         {
+            // Basic auth
+            builder.Services.Configure<HttpAuthenticationOptions>(opts =>
+            {
+                var userPass = Configuration.GetSection("Auth")["AdminCreds"].Split(":");
+                opts.BasicAuthentication = new BasicAuthenticationParameters()
+                {
+                    ValidCredentials = new Dictionary<string, string>() { { userPass[0], userPass[1] } }
+                };
+            });
+
             builder.AddDependencyInjection(ConfigureServices);
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
-            var config = new ConfigurationBuilder()
-                .AddMemCachedKeyVaultConfiguration(() => Environment.GetEnvironmentVariable("AzureKeyVaultUri"))
-                .AddEnvironmentVariables("SD2API_")
-                .Build();
-
-            services.AddSingleton(typeof(IConfiguration), config);
+            services.AddSingleton(typeof(IConfiguration), Configuration);
             services.AddTransient<IQueryBuilder, QueryBuilder>();
             services.AddMediatR(typeof(GetReplayResponse).GetTypeInfo().Assembly);
             services.AddSingleton<IMapper, Mapper>(provider =>
@@ -53,10 +77,10 @@ namespace SD2API.Startup
 
             services.AddDbContext<IApiDbContext, ApiDbContext>(options =>
             {
-                options.UseSqlServer(config.GetConnectionString("Db"));
+                options.UseSqlServer(Configuration.GetConnectionString("Db"));
             });
             services.AddTransient<IBlobStorage, AzureBlobStorage>();
-            // problem: output goes to bin/bin, and dotnet ef core commands can't find it.
+
             var dbContextInstance = services.BuildServiceProvider().GetService<IApiDbContext>() as ApiDbContext;
             dbContextInstance.Database.Migrate();
 

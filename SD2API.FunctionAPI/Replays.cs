@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using AzureFunctionsV2.HttpExtensions.Annotations;
+using AzureFunctionsV2.HttpExtensions.Authorization;
 using AzureFunctionsV2.HttpExtensions.Infrastructure;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +34,7 @@ namespace SD2API.FunctionAPI
             [HttpQuery]HttpParam<bool> descending,
             [HttpQuery]HttpParam<string> name,
             [HttpQuery]HttpParam<string> playerName,
-            [HttpQuery]HttpParam<string> playerId,
+            [HttpQuery]HttpParam<string> playerUserId,
             [HttpQuery]HttpParam<string> map,
             [HttpQuery]HttpParam<string> gameMode,
             [HttpQuery]HttpParam<int?> nbMaxPlayer,
@@ -49,12 +50,14 @@ namespace SD2API.FunctionAPI
                 Descending = descending, Limit = limit, OrderBy = orderBy, Skip = skip, Query = new GetReplayList.ReplayQuery()
                 {
                     GameMode = gameMode, IncomeRate = incomeRate, InitMoney = initMoney, Map = map, Name = name, NbMaxPlayer = nbMaxPlayer,
-                    PlayerName = playerName, PlayerId = playerId, RankedMatchesOnly = rankedMatchesOnly, VictoryCond = victoryCond
+                    PlayerName = playerName, PlayerUserId = playerUserId, RankedMatchesOnly = rankedMatchesOnly, VictoryCond = victoryCond
                 }
             });
             return new OkObjectResult(result);
         }
 
+        [SwaggerResponse(200, typeof(GetReplayResponse))]
+        [SwaggerResponse(404, null)]
         [FunctionName("GetReplay")]
         public static async Task<IActionResult> GetReplay(
             [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "replays/{hash}")] HttpRequest req,
@@ -92,6 +95,23 @@ namespace SD2API.FunctionAPI
                 var result = await mediator.Send(replayData);
                 return new OkObjectResult(result);
             }
+        }
+
+        [SwaggerResponse(200, typeof(DeleteReplayResponse))]
+        [SwaggerResponse(404, null)]
+        [SwaggerResponse(500, typeof(InternalServerErrorResponse))]
+        [SwaggerResponse(401, null)]
+        [HttpAuthorize(Scheme.Basic)]
+        [FunctionName("DeleteReplay")]
+        public static async Task<IActionResult> DeleteReplay(
+            [HttpTrigger(AuthorizationLevel.Anonymous, "delete", Route = "replay/{hash}")]
+            HttpRequest req,
+            string hash,
+            [Inject] IMediator mediator,
+            ILogger log)
+        {
+            var response = await mediator.Send(new DeleteReplay() {Hash = hash});
+            return response.Success ? new OkObjectResult(response) : (IActionResult)new NotFoundResult();
         }
     }
 }

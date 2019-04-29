@@ -18,7 +18,7 @@ namespace SD2API.Application.Core.Replays.Queries
         {
             public string Name { get; set; }
             public string PlayerName { get; set; }
-            public string PlayerId { get; set; }
+            public string PlayerUserId { get; set; }
             public string Map { get; set; }
             public string GameMode { get; set; }
             public int? NbMaxPlayer { get; set; }

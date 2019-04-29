@@ -27,7 +27,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SD2Tools.ReplayTools", "SD2
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SD2Tools.BattlegroupTools", "SD2Tools.BattlegroupTools\SD2Tools.BattlegroupTools.csproj", "{26F3B857-1035-48B7-B6DB-C9E5A35D89D5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SD2Tools.ReplayTools.Tests", "SD2Tools.ReplayTools.Tests\SD2Tools.ReplayTools.Tests.csproj", "{78E6662C-2C9D-4A32-9692-31C2E13495B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SD2Tools.ReplayTools.Tests", "SD2Tools.ReplayTools.Tests\SD2Tools.ReplayTools.Tests.csproj", "{78E6662C-2C9D-4A32-9692-31C2E13495B0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

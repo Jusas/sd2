@@ -46,6 +46,9 @@ namespace SD2API.Application.Core.Replays.Queries
         public long ScoreLimit { get; set; }
         public string VictoryCond { get; set; }
         public long IncomeRate { get; set; }
+        public string ResultVictory { get; set; }
+        public long ResultScore { get; set; }
+        public long ResultDuration { get; set; }
 
         public virtual void SetMappings(Profile mappings)
         {
@@ -63,6 +66,9 @@ namespace SD2API.Application.Core.Replays.Queries
                 .ForMember(d => d.ScoreLimit, opt => opt.MapFrom(s => s.ReplayHeader.Game.ScoreLimit))
                 .ForMember(d => d.VictoryCond, opt => opt.MapFrom(s => s.ReplayHeader.Game.VictoryCond))
                 .ForMember(d => d.IncomeRate, opt => opt.MapFrom(s => s.ReplayHeader.Game.IncomeRate))
+                .ForMember(d => d.ResultDuration, opt => opt.MapFrom(s => s.ReplayFooter.result.Duration))
+                .ForMember(d => d.ResultScore, opt => opt.MapFrom(s => s.ReplayFooter.result.Score))
+                .ForMember(d => d.ResultVictory, opt => opt.MapFrom(s => s.ReplayFooter.result.Victory))
                 ;
         }
     }

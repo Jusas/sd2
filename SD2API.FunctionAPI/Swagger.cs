@@ -33,7 +33,9 @@ namespace SD2API.FunctionAPI
             var generator = new AzureFunctionsV2ToSwaggerGenerator(SwaggerConfiguration.SwaggerGeneratorSettings);
             var funcClasses = new[]
             {
-                typeof(Replays)
+                typeof(Replays),
+                typeof(Maps),
+                typeof(Players)
             };
             var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);
 

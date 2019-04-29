@@ -21,6 +21,7 @@ namespace SD2API.Persistence
 
         public DbSet<Replay> Replays { get; set; }
         public DbSet<ReplayHeader.ReplayHeaderPlayer> ReplayHeaderPlayer { get; set; }
+        public DbSet<ReplayHeader.ReplayHeaderGame> ReplayHeaderGame { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

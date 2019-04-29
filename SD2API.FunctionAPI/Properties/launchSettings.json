@@ -3,6 +3,7 @@
     "SD2API.FunctionAPI": {
       "commandName": "Project",
       "environmentVariables": {
+        "SD2API_Auth__AdminCreds": "user:pass",
         "SD2API_ConnectionStrings__Db": "Server=tcp:localhost,1433;Initial Catalog=sd2replays;Persist Security Info=False;User ID=sd2replays;Password=msx3oy68PLGBVJ6NZPT3;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Connection Timeout=30;",
         "SD2API_ConnectionStrings__ReplayBlobStorage": "UseDevelopmentStorage=true;"
       }

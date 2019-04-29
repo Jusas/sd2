@@ -6,6 +6,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using SD2API.Application.Core.Replays.Exceptions;
 using SD2API.Application.DataExtensions;
@@ -19,11 +20,13 @@ namespace SD2API.Application.Core.Replays.Commands
 
         private IApiDbContext _apiDbContext;
         private IBlobStorage _blobStorage;
+        private IMapper _mapper;
 
-        public CreateReplayHandler(IApiDbContext apiDbContext, IBlobStorage blobStorage)
+        public CreateReplayHandler(IApiDbContext apiDbContext, IBlobStorage blobStorage, IMapper mapper)
         {
             _apiDbContext = apiDbContext;
             _blobStorage = blobStorage;
+            _mapper = mapper;
         }
 
         private async Task<string> UploadToStorage(Stream fileStream, string hashStub)
@@ -59,20 +62,22 @@ namespace SD2API.Application.Core.Replays.Commands
                     ReplayHashStub = hashStub,
                     ReplayRawFooter = parsedReplay.ReplayFooterRaw,
                     ReplayRawHeader = parsedReplay.ReplayHeaderRaw,
-                    ReplayHeader = new ReplayHeader()
-                    {
-                        Game = parsedReplay.ReplayHeader.Game.ToDomainReplayHeaderGame(), // todo use automapper
-                        Players = parsedReplay.ReplayHeader.Players.ToDomainReplayPlayerList()
-                    },
-                    ReplayFooter = new ReplayFooter()
-                    {
-                        result = new ReplayFooter.ReplayFooterResult()
-                        {
-                            Duration = parsedReplay.ReplayFooter.Result.Duration,
-                            Score = parsedReplay.ReplayFooter.Result.Score,
-                            Victory = parsedReplay.ReplayFooter.Result.Victory
-                        }
-                    },
+                    //ReplayHeader = new ReplayHeader()
+                    //{
+                    //    Game = parsedReplay.ReplayHeader.Game.ToDomainReplayHeaderGame(), // todo use automapper
+                    //    Players = parsedReplay.ReplayHeader.Players.ToDomainReplayPlayerList()
+                    //},
+                    //ReplayFooter = new ReplayFooter()
+                    //{
+                    //    result = new ReplayFooter.ReplayFooterResult()
+                    //    {
+                    //        Duration = parsedReplay.ReplayFooter.Result.Duration,
+                    //        Score = parsedReplay.ReplayFooter.Result.Score,
+                    //        Victory = parsedReplay.ReplayFooter.Result.Victory
+                    //    }
+                    //},
+                    ReplayHeader = _mapper.Map<ReplayHeader>(parsedReplay.ReplayHeader),
+                    ReplayFooter = _mapper.Map<ReplayFooter>(parsedReplay.ReplayFooter),
                     BinaryUrl = blobUrl
                 };
 

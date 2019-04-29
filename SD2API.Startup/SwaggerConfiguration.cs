@@ -4,7 +4,10 @@ using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NJsonSchema;
+using NSwag;
 using NSwag.SwaggerGeneration.AzureFunctionsV2;
+using NSwag.SwaggerGeneration.AzureFunctionsV2.Processors;
+using NSwag.SwaggerGeneration.Processors.Security;
 
 namespace SD2API.Startup
 {
@@ -49,14 +52,14 @@ namespace SD2API.Startup
             //    Description = "Token"
             //}));
 
-            //settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic",
-            //    SwaggerSecuritySchemeType.Basic));
-            //settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Basic", new SwaggerSecurityScheme()
-            //{
-            //    Type = SwaggerSecuritySchemeType.Basic,
-            //    Scheme = "Basic",
-            //    Description = "Basic auth"
-            //}));
+            settings.OperationProcessors.Add(new OperationSecurityProcessor("Basic",
+                SwaggerSecuritySchemeType.Basic));
+            settings.DocumentProcessors.Add(new SecurityDefinitionAppender("Basic", new SwaggerSecurityScheme()
+            {
+                Type = SwaggerSecuritySchemeType.Basic,
+                Scheme = "Basic",
+                Description = "Basic auth"
+            }));
 
             //settings.OperationProcessors.Add(new OperationSecurityProcessor("HApiKey",
             //    SwaggerSecuritySchemeType.ApiKey, SwaggerSecurityApiKeyLocation.Header));

@@ -14,7 +14,6 @@ using SD2API.Application.Infrastructure.Expressions;
 using SD2API.Application.Interfaces;
 using SD2API.Application.Search;
 using SD2API.Domain;
-using StringComparison = SD2API.Application.Search.StringComparison;
 
 namespace SD2API.Application.Core.Replays.Queries
 {
@@ -53,9 +52,9 @@ namespace SD2API.Application.Core.Replays.Queries
                     Expression<Func<Replay, bool>> ex = x => x.ReplayHeader.Game.Map == request.Query.Map;
                     queryExpressions.Add(ex);
                 }
-                if (!string.IsNullOrEmpty(request.Query.PlayerId))
+                if (!string.IsNullOrEmpty(request.Query.PlayerUserId))
                 {
-                    Expression<Func<Replay, bool>> ex = x => x.ReplayHeader.Players.Any(p => p.PlayerUserId == request.Query.PlayerId);
+                    Expression<Func<Replay, bool>> ex = x => x.ReplayHeader.Players.Any(p => p.PlayerUserId == request.Query.PlayerUserId);
                     queryExpressions.Add(ex);
                 }
                 if (!string.IsNullOrEmpty(request.Query.PlayerName))
