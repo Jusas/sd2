@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
+using NSwag;
 using NSwag.Annotations;
 using NSwag.SwaggerGeneration.AzureFunctionsV2;
 using SD2API.Startup;
@@ -17,6 +18,20 @@ namespace SD2API.FunctionAPI
 {
     public static class Swagger
     {
+        public static async Task<SwaggerDocument> GenerateSwaggerDocument()
+        {
+            var generator = new AzureFunctionsV2ToSwaggerGenerator(SwaggerConfiguration.SwaggerGeneratorSettings);
+            var funcClasses = new[]
+            {
+                typeof(Replays),
+                typeof(Maps),
+                typeof(Players)
+            };
+            var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);
+
+            return document;
+        }
+
         /// <summary>
         /// Generates Swagger JSON.
         /// </summary>
@@ -30,17 +45,7 @@ namespace SD2API.FunctionAPI
             HttpRequest req,
             ILogger log)
         {
-            var generator = new AzureFunctionsV2ToSwaggerGenerator(SwaggerConfiguration.SwaggerGeneratorSettings);
-            var funcClasses = new[]
-            {
-                typeof(Replays),
-                typeof(Maps),
-                typeof(Players)
-            };
-            var document = await generator.GenerateForAzureFunctionClassesAsync(funcClasses, null);
-
-            var json = document.ToJson();
-            return new OkObjectResult(json);
+            return new OkObjectResult((await GenerateSwaggerDocument()).ToJson());
         }
 
         /// <summary>

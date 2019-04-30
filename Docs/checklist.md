@@ -19,6 +19,9 @@
 
 ## Deving
 
-- Run migration script when domain models change
+- Run migration script when domain models or their configurations change
 
+## Deployment
 
+- Run migrations
+- Deploy

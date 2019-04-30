@@ -32,7 +32,7 @@ namespace SD2API.Application.Core.Replays.Commands
         private async Task<string> UploadToStorage(Stream fileStream, string hashStub)
         {
             fileStream.Seek(0, SeekOrigin.Begin);
-            var storageUri = await _blobStorage.UploadBlob(fileStream, "files", hashStub, true);
+            var storageUri = await _blobStorage.UploadBlob(fileStream, "files", hashStub + ".rpl3", true);
             return storageUri;
         }
 

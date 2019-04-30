@@ -29,6 +29,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SD2Tools.BattlegroupTools",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SD2Tools.ReplayTools.Tests", "SD2Tools.ReplayTools.Tests\SD2Tools.ReplayTools.Tests.csproj", "{78E6662C-2C9D-4A32-9692-31C2E13495B0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontend", "Frontend", "{89AD093E-D76B-4D8C-8328-07BCFB648616}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SD2API.TypescriptClientGenerator", "SD2API.TypescriptClientGenerator\SD2API.TypescriptClientGenerator.csproj", "{0F87F240-D305-4A33-86BE-8BBC841CDCDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -67,6 +71,10 @@ Global
 		{78E6662C-2C9D-4A32-9692-31C2E13495B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78E6662C-2C9D-4A32-9692-31C2E13495B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78E6662C-2C9D-4A32-9692-31C2E13495B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0F87F240-D305-4A33-86BE-8BBC841CDCDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0F87F240-D305-4A33-86BE-8BBC841CDCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0F87F240-D305-4A33-86BE-8BBC841CDCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0F87F240-D305-4A33-86BE-8BBC841CDCDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -82,6 +90,8 @@ Global
 		{F5B36E12-BBAD-4AF8-830C-FB7A48C9B717} = {FA8785C4-8B48-4632-82B9-F237AA30A23D}
 		{26F3B857-1035-48B7-B6DB-C9E5A35D89D5} = {FA8785C4-8B48-4632-82B9-F237AA30A23D}
 		{78E6662C-2C9D-4A32-9692-31C2E13495B0} = {FA8785C4-8B48-4632-82B9-F237AA30A23D}
+		{89AD093E-D76B-4D8C-8328-07BCFB648616} = {88E4099F-06B7-4DFD-B1CF-EB9DBB5AF965}
+		{0F87F240-D305-4A33-86BE-8BBC841CDCDB} = {89AD093E-D76B-4D8C-8328-07BCFB648616}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9A5BC478-FBA2-4FE7-8358-1A3B68212233}

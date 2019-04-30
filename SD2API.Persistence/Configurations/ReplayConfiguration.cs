@@ -78,4 +78,12 @@ namespace SD2API.Persistence.Configurations
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }
+
+    public class ReplayHeaderPlayerConfiguration : IEntityTypeConfiguration<ReplayHeader.ReplayHeaderPlayer>
+    {
+        public void Configure(EntityTypeBuilder<ReplayHeader.ReplayHeaderPlayer> builder)
+        {
+            builder.HasIndex(x => x.PlayerUserId);
+        }
+    }
 }

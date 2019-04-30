@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SD2API.TypescriptClientGenerator": {
+      "commandName": "Project",
+      "commandLineArgs": "apiClient.ts"
+    }
+  }
+}
