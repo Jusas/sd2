@@ -71,7 +71,7 @@ namespace SD2API.Persistence
                 streamToUpload.Dispose();
             }
 
-            return blob.Uri.ToString();
+            return blob.Uri.ToString(); // Todo update to use custom domain name
         }
     }
 }

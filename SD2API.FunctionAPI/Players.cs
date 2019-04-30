@@ -21,7 +21,7 @@ namespace SD2API.FunctionAPI
         [SwaggerResponse(404, null)]
         [FunctionName("GetPlayer")]
         public static async Task<IActionResult> GetPlayer(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "players/{playerUserId}")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "players/{playerUserId}")] HttpRequest req,
             [Inject]IMediator mediator,
             string playerUserId,
             ILogger log)
@@ -34,7 +34,7 @@ namespace SD2API.FunctionAPI
         [SwaggerResponse(404, null)]
         [FunctionName("GetPlayerBattlegroups")]
         public static async Task<IActionResult> GetPlayerBattlegroups(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = "players/{playerUserId}/battlegroups")] HttpRequest req,
+            [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "players/{playerUserId}/battlegroups")] HttpRequest req,
             [Inject]IMediator mediator,
             string playerUserId,
             ILogger log)
